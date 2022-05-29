@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 export default function Read() {
@@ -20,23 +19,19 @@ export default function Read() {
 
     const [rows, setRows] = useState([])
 
-    const dados = []
+    useEffect(async () => {
 
-    getNames();
+            const dados = await (await fetch("https://6151da0a4a5f22001701d4da.mockapi.io/sevenapps")).json();
+    
+            dados.forEach((item, i) => {
+                item.id = i + 1;
+            });
+    
+            setRows(dados)
+    
+    }, [])
 
-    async function getNames() {
-        const response = await axios({
-            url: "https://6151da0a4a5f22001701d4da.mockapi.io/sevenapps",
-            method: "GET"
-        })
-        dados.push(response.data)
-
-        dados[0].forEach((item, i) => {
-            item.id = i + 1;
-        });
-
-        setRows(dados[0])
-    }
+   
 
     return (
         <div style={{ height: 700, width: '100%' }}>
