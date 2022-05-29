@@ -18,27 +18,33 @@ export default function Read() {
 
     const [rows, setRows] = useState([])
 
-    useEffect(async () => {
+    useEffect(() => {
 
-            const dados = await (await fetch("https://6151da0a4a5f22001701d4da.mockapi.io/sevenapps")).json();
-    
-            dados.forEach((item, i) => {
+        async function getData() {
+            const data = await(await fetch("https://6151da0a4a5f22001701d4da.mockapi.io/sevenapps")).json();
+
+            data.forEach((item, i) => {
                 item.id = i + 1;
             });
-    
-            setRows(dados)
-    
+
+            console.log(data)
+
+            setRows(data)
+        }
+
+        getData();
+
     }, [])
 
-   
+
 
     return (
         <div style={{ height: 700, width: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={11}
-                rowsPerPageOptions={[5]}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
                 checkboxSelection
             />
         </div>
